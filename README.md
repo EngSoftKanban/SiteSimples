@@ -33,4 +33,4 @@ O projeto se trata de um site de página única que permite ao usuário enviar u
 
 ## Instalação
 
-O projeto requer que o [XAMPP 8.2.12](https://www.apachefriends.org/pt_br/index.html) esteja instalado e que a pasta local do repositório seja o diretório raíz do servidor Apache e isso pode feito ou colocando só os conteúdos do projeto dentro de `htdocs`, ou mudando o valor de `DocumentRoot` e da tag relacionada para o caminho para o diretório do projeto.
+O projeto requer que o [XAMPP 8.2.12](https://www.apachefriends.org/pt_br/index.html) esteja instalado e que a pasta local do repositório seja o diretório raíz do servidor Apache e isso pode feito ou colocando só os conteúdos do projeto dentro de `htdocs`, ou mudando o valor de `DocumentRoot` e da tag logo abaixo para o caminho para o diretório do projeto.
