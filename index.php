@@ -8,13 +8,11 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #b8cfac;
-            margin: 0;
-            padding: 0;
         }
 
         .container {
             width: 50%;
-            margin: 20px auto;
+            margin: 0 auto;
             background-color: white;
             padding: 20px;
             border-radius: 20px;
@@ -84,47 +82,99 @@
         <h1>Deixe seu comentário</h1>
         
         <!-- Formulário para envio de comentários -->
-        <form action="" method="post" class="comment-form">
+        <form id="commentForm" action="" method="post" class="comment-form">
             <textarea name="nickname" placeholder="Apelido" required></textarea>
             <textarea name="comment" placeholder="Escreva seu comentário..." required></textarea>
             <button type="submit">Enviar</button>
         </form>
 
-        <div class="comment-list">
+        <div class="comment-list" id="commentList">
+            <!-- Comentários serão inseridos aqui -->
             <?php
             // Salva o comentário no arquivo se o formulário foi submetido
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $nickname = trim(htmlspecialchars($_POST['nickname']));
-                $comment = trim(htmlspecialchars($_POST['comment']));
+                $nickname = htmlspecialchars($_POST['nickname']);
+                $comment = htmlspecialchars($_POST['comment']);
 
-                if (!empty($nickname) && !empty($comment)) {
-                    $commentEntry = $nickname . '|' . $comment . "\n";
-                    file_put_contents('comments.txt', $commentEntry, FILE_APPEND | LOCK_EX);
+                $commentEntry = $nickname . '|' . $comment . "\n";
 
-                    // Evita reenvio do formulário ao recarregar a página
-                    header('Location: ' . $_SERVER['PHP_SELF']);
-                    exit();
-                }
+                file_put_contents('comments.txt', $commentEntry, FILE_APPEND | LOCK_EX);
+
+                // Evita reenvio do formulário ao recarregar a página
+                header('Location: ' . $_SERVER['PHP_SELF']);
+                exit();
             }
 
-            // verifica se o arquivo comments.txt existe
-            if (file_exists('comments.txt')) {
+            // Lê os comentários de um arquivo de texto
+            if(file_exists('comments.txt')){
                 $comments = file('comments.txt');
                 foreach ($comments as $comment) {
                     list($nickname, $commentText) = explode('|', $comment);
-
-                    // remove possiveis espaços em branco
-                    $nickname = trim($nickname);
-                    $commentText = trim($commentText);
-
-                    //mostra o comentário na pagina
-                    echo "<div class='comment'><p class='nickname'>" . htmlspecialchars($nickname) . "</p><p class='comment-text'>" . htmlspecialchars($commentText) . "</p></div>";
+                    echo "<div class='comment'><p class='nickname'>$nickname</p><p class='comment-text'>$commentText</p></div>";
                 }
-            } else {
-                echo "Arquivo de comentários não encontrado.";
             }
             ?>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const commentForm = document.getElementById('commentForm');
+            const commentList = document.getElementById('commentList');
+
+            commentForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const formData = new FormData(commentForm);
+                const nickname = formData.get('nickname');
+                const commentText = formData.get('comment');
+
+                fetch(commentForm.action, {
+                    method: 'POST',
+                    body: formData
+                }).then(response => {
+                    if (response.ok) {
+                        // Adiciona o novo comentário na interface imediatamente
+                        const commentDiv = document.createElement('div');
+                        commentDiv.className = 'comment';
+                        const nicknameP = document.createElement('p');
+                        nicknameP.className = 'nickname';
+                        nicknameP.textContent = nickname;
+                        const commentTextP = document.createElement('p');
+                        commentTextP.className = 'comment-text';
+                        commentTextP.textContent = commentText;
+                        commentDiv.appendChild(nicknameP);
+                        commentDiv.appendChild(commentTextP);
+                        commentList.insertBefore(commentDiv, commentList.firstChild);
+
+                        commentForm.reset();
+                    }
+                });
+            });
+
+            function loadComments() {
+                fetch('get_comments.php')
+                    .then(response => response.json())
+                    .then(comments => {
+                        commentList.innerHTML = '';
+                        comments.forEach(comment => {
+                            const commentDiv = document.createElement('div');
+                            commentDiv.className = 'comment';
+                            const nicknameP = document.createElement('p');
+                            nicknameP.className = 'nickname';
+                            nicknameP.textContent = comment.nickname;
+                            const commentTextP = document.createElement('p');
+                            commentTextP.className = 'comment-text';
+                            commentTextP.textContent = comment.commentText;
+                            commentDiv.appendChild(nicknameP);
+                            commentDiv.appendChild(commentTextP);
+                            commentList.appendChild(commentDiv);
+                        });
+                    });
+            }
+
+            loadComments(); // Carrega comentários ao carregar a página
+        });
+    </script>
 </body>
 </html>
