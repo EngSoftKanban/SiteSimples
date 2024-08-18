@@ -105,18 +105,26 @@
                 exit();
             }
 
+<<<<<<< HEAD
             // Lê os comentários de um arquivo de texto e os exibe
+=======
+            // Lê os comentários de um arquivo de texto
+>>>>>>> feature_branch3
             if(file_exists('comments.txt')){
                 $comments = file('comments.txt');
                 $index = 0;
                 foreach ($comments as $comment) {
                     list($nickname, $commentText) = explode('|', $comment);
+<<<<<<< HEAD
                     $index++;
                     echo "<div class='comment' id='comment_$index'>";
                     echo "<p class='nickname'>$nickname</p>";
                     echo "<p class='comment-text'>$commentText</p>";
                     echo "<button class='change-color'>Mudar Cor</button>";
                     echo "</div>";
+=======
+                    echo "<div class='comment'><p class='nickname'>$nickname</p><p class='comment-text'>$commentText</p></div>";
+>>>>>>> feature_branch3
                 }
             }
             ?>
@@ -128,6 +136,7 @@
             const commentForm = document.getElementById('commentForm');
             const commentList = document.getElementById('commentList');
 
+<<<<<<< HEAD
             // Cores para os comentários, incluindo a cor padrão
             const colors = ['#ebf3e7', '#e7ebf3', '#f3e7eb', '#f3f3e7'];
 
@@ -224,6 +233,8 @@
             }
 
             // Evento de envio do formulário
+=======
+>>>>>>> feature_branch3
             commentForm.addEventListener('submit', function(event) {
                 event.preventDefault();
 
@@ -236,14 +247,55 @@
                     body: formData
                 }).then(response => {
                     if (response.ok) {
+<<<<<<< HEAD
                         addComment(nickname, commentText);
+=======
+                        // Adiciona o novo comentário na interface imediatamente
+                        const commentDiv = document.createElement('div');
+                        commentDiv.className = 'comment';
+                        const nicknameP = document.createElement('p');
+                        nicknameP.className = 'nickname';
+                        nicknameP.textContent = nickname;
+                        const commentTextP = document.createElement('p');
+                        commentTextP.className = 'comment-text';
+                        commentTextP.textContent = commentText;
+                        commentDiv.appendChild(nicknameP);
+                        commentDiv.appendChild(commentTextP);
+                        commentList.insertBefore(commentDiv, commentList.firstChild);
+
+>>>>>>> feature_branch3
                         commentForm.reset();
                     }
                 });
             });
 
+<<<<<<< HEAD
             // Carrega os comentários ao iniciar
             loadComments();
+=======
+            function loadComments() {
+                fetch('get_comments.php')
+                    .then(response => response.json())
+                    .then(comments => {
+                        commentList.innerHTML = '';
+                        comments.forEach(comment => {
+                            const commentDiv = document.createElement('div');
+                            commentDiv.className = 'comment';
+                            const nicknameP = document.createElement('p');
+                            nicknameP.className = 'nickname';
+                            nicknameP.textContent = comment.nickname;
+                            const commentTextP = document.createElement('p');
+                            commentTextP.className = 'comment-text';
+                            commentTextP.textContent = comment.commentText;
+                            commentDiv.appendChild(nicknameP);
+                            commentDiv.appendChild(commentTextP);
+                            commentList.appendChild(commentDiv);
+                        });
+                    });
+            }
+
+            loadComments(); // Carrega comentários ao carregar a página
+>>>>>>> feature_branch3
         });
     </script>
 </body>
