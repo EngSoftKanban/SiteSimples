@@ -106,7 +106,11 @@
             }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             // Lê os comentários de um arquivo de texto e os exibe
+=======
+            // Lê os comentários de um arquivo de texto
+>>>>>>> feature_branch3
 =======
             // Lê os comentários de um arquivo de texto
 >>>>>>> feature_branch3
@@ -116,12 +120,16 @@
                 foreach ($comments as $comment) {
                     list($nickname, $commentText) = explode('|', $comment);
 <<<<<<< HEAD
+<<<<<<< HEAD
                     $index++;
                     echo "<div class='comment' id='comment_$index'>";
                     echo "<p class='nickname'>$nickname</p>";
                     echo "<p class='comment-text'>$commentText</p>";
                     echo "<button class='change-color'>Mudar Cor</button>";
                     echo "</div>";
+=======
+                    echo "<div class='comment'><p class='nickname'>$nickname</p><p class='comment-text'>$commentText</p></div>";
+>>>>>>> feature_branch3
 =======
                     echo "<div class='comment'><p class='nickname'>$nickname</p><p class='comment-text'>$commentText</p></div>";
 >>>>>>> feature_branch3
@@ -136,6 +144,7 @@
             const commentForm = document.getElementById('commentForm');
             const commentList = document.getElementById('commentList');
 
+<<<<<<< HEAD
 <<<<<<< HEAD
             // Cores para os comentários, incluindo a cor padrão
             const colors = ['#ebf3e7', '#e7ebf3', '#f3e7eb', '#f3f3e7'];
@@ -235,6 +244,8 @@
             // Evento de envio do formulário
 =======
 >>>>>>> feature_branch3
+=======
+>>>>>>> feature_branch3
             commentForm.addEventListener('submit', function(event) {
                 event.preventDefault();
 
@@ -248,8 +259,11 @@
                 }).then(response => {
                     if (response.ok) {
 <<<<<<< HEAD
+<<<<<<< HEAD
                         addComment(nickname, commentText);
 =======
+=======
+>>>>>>> feature_branch3
                         // Adiciona o novo comentário na interface imediatamente
                         const commentDiv = document.createElement('div');
                         commentDiv.className = 'comment';
@@ -263,6 +277,9 @@
                         commentDiv.appendChild(commentTextP);
                         commentList.insertBefore(commentDiv, commentList.firstChild);
 
+<<<<<<< HEAD
+>>>>>>> feature_branch3
+=======
 >>>>>>> feature_branch3
                         commentForm.reset();
                     }
@@ -270,9 +287,12 @@
             });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             // Carrega os comentários ao iniciar
             loadComments();
 =======
+=======
+>>>>>>> feature_branch3
             function loadComments() {
                 fetch('get_comments.php')
                     .then(response => response.json())
@@ -295,6 +315,9 @@
             }
 
             loadComments(); // Carrega comentários ao carregar a página
+<<<<<<< HEAD
+>>>>>>> feature_branch3
+=======
 >>>>>>> feature_branch3
         });
     </script>
