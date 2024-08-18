@@ -8,11 +8,13 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #b8cfac;
+            margin: 0;
+            padding: 0;
         }
 
         .container {
             width: 50%;
-            margin: 0 auto;
+            margin: 20px auto;
             background-color: white;
             padding: 20px;
             border-radius: 20px;
@@ -92,25 +94,34 @@
             <?php
             // Salva o comentário no arquivo se o formulário foi submetido
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $nickname = htmlspecialchars($_POST['nickname']);
-                $comment = htmlspecialchars($_POST['comment']);
+                $nickname = trim(htmlspecialchars($_POST['nickname']));
+                $comment = trim(htmlspecialchars($_POST['comment']));
 
-                $commentEntry = $nickname . '|' . $comment . "\n";
+                if (!empty($nickname) && !empty($comment)) {
+                    $commentEntry = $nickname . '|' . $comment . "\n";
+                    file_put_contents('comments.txt', $commentEntry, FILE_APPEND | LOCK_EX);
 
-                file_put_contents('comments.txt', $commentEntry, FILE_APPEND | LOCK_EX);
-
-                // Evita reenvio do formulário ao recarregar a página
-                header('Location: ' . $_SERVER['PHP_SELF']);
-                exit();
+                    // Evita reenvio do formulário ao recarregar a página
+                    header('Location: ' . $_SERVER['PHP_SELF']);
+                    exit();
+                }
             }
 
-            // Lê os comentários de um arquivo de texto
-            if(file_exists('comments.txt')){
+            // verifica se o arquivo comments.txt existe
+            if (file_exists('comments.txt')) {
                 $comments = file('comments.txt');
                 foreach ($comments as $comment) {
                     list($nickname, $commentText) = explode('|', $comment);
-                    echo "<div class='comment'><p class='nickname'>$nickname</p><p class='comment-text'>$commentText</p></div>";
+
+                    // remove possiveis espaços em branco
+                    $nickname = trim($nickname);
+                    $commentText = trim($commentText);
+
+                    //mostra o comentário na pagina
+                    echo "<div class='comment'><p class='nickname'>" . htmlspecialchars($nickname) . "</p><p class='comment-text'>" . htmlspecialchars($commentText) . "</p></div>";
                 }
+            } else {
+                echo "Arquivo de comentários não encontrado.";
             }
             ?>
         </div>
