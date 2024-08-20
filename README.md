@@ -17,15 +17,15 @@ O projeto se trata de um site de página única que permite ao usuário enviar u
 
 | Informação | Descrição |
 | --- | --- |
-| Universidade | Universidade Federal do Tocantins |
+| Universidade | Universidade Federal do Tocantins - Campus Palmas |
 | Curso | Ciência da Computação |
 | Disciplina | Engenharia de Software |
-| semestre | 4° Semestre |
+| semestre | 2024/2 |
 | Professor | Edeilson Milhomem da Silva |
 
 ## Equipe
 
-* Lalisa;
+* José Lucas Carvalho Silva;
 * Iago Arruda Faria;
 * Daniel Vinicius da Silva;
 * Ana Júlia Campos Vieira;
