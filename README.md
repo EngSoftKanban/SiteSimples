@@ -37,4 +37,4 @@ O projeto requer que o [XAMPP 8.2.12](https://www.apachefriends.org/pt_br/index.
 
 ## Vídeo
 
-https://github.com/EngSoftKanban/SiteSimples/raw/develop/Video_projeto.mp4
+https://github.com/EngSoftKanban/SiteSimples/raw/main/Video_projeto.mp4
